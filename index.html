@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bingeros</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>BINGO!</h1>
-      <div class="table-holder">
-        <table id="points">
-          <tr>
-            <th id="pnumber">N°</th>
-            <th>Jugador</th>
-            <th>Puntaje</th>
-          </tr>
-        </table>
-      </div>
 
-      <h2>Jugar:</h2>
-      <div class="buttons">
-        <a href="bingo.html">
-          <button onclick="setSize(3)">3x3</button>
-          <button onclick="setSize(4)">4x4</button>
-          <button onclick="setSize(5)">5x5</button>
-        </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingeros</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>BINGO!</h1>
+    <div class="table-holder">
+      <table id="points">
+        <tr>
+          <th id="pnumber">N°</th>
+          <th>Jugador</th>
+          <th>Puntaje</th>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Jugar: </h2>
+
+    <!-- Tarjeta emergente -->
+    <div class="overlay" id="namesCard">
+      <div class="card">
+        <i class="fa-solid fa-x" id="x" onclick="closeCard()"></i>
+        <h2 id="namesCardTitle">Introduce los nombres de los jugadores</h2>
+        <input type="text" placeholder="Nombre 1 (obligatorio)" id="nameInput1">
+        <input type="text" placeholder="Nombre 2" class="nameInput">
+        <input type="text" placeholder="Nombre 3" class="nameInput">
+        <input type="text" placeholder="Nombre 4" class="nameInput">
+        <button id="cerrarTarjeta" onclick="startPlaying()">Hecho</button>
       </div>
     </div>
-  </body>
-  <script src="script.js"></script>
+
+    <div class=" buttons">
+
+      <button onclick="showNamesCard()" class="playBtn">Jugar</button>
+
+      <a href="bingo.html" class="btnLink">
+        <button onclick="setSize(3)" class="cartonBtn">3x3</button>
+      </a>
+      <a href="bingo.html" class="btnLink">
+        <button onclick="setSize(4)" class="cartonBtn">4x4</button>
+      </a>
+      <a href="bingo.html" class="btnLink">
+        <button onclick="setSize(5)" class="cartonBtn">5x5</button>
+      </a>
+
+
+
+    </div>
+  </div>
+</body>
+<script src="script.js"></script>
+
 </html>

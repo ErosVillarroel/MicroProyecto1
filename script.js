@@ -134,3 +134,78 @@ function assignEventListeners() {
     });
   });
 }
+
+//Funcion para cuando se empiece a jugar
+function startPlaying() {
+  //Primero se revisa si al menos el nombre 1 existe
+  const importantName = document.getElementById("nameInput1").value;
+
+  //revisa si el nombre obligatorio esta lleno y si no, pide la accion otra vez
+  if (importantName.trim() === "") {
+    alert("Debe ingresar al menos un nombre de usuario");
+    closeCard();
+    return;
+  }
+
+  //Guarda el nombre obligatorio
+  localStorage.setItem("importantName", importantName);
+  console.log(`Nombre player_1: ${importantName}`);
+
+  //pide todos los inputs
+  const names = document.querySelectorAll(".nameInput");
+
+  //el contador empieza en 2 porque siempre viene lleno un nombre
+  let counter = 2;
+  names.forEach((e) => {
+    let name = e.value;
+    //Si el nombre esta vacio, se llena con player_#
+    if (name.trim() === "") {
+      let name = "player_" + counter.toString();
+      localStorage.setItem(name, name);
+      console.log(`Nombre ${name}: ${name}`);
+      counter++;
+      //Si no, se guarda en la memoria local como player_# y el nombre introducido
+    } else {
+      let placeholderName = "player_" + counter.toString();
+      localStorage.setItem(placeholderName, name);
+      console.log(`Nombre ${placeholderName}: ${name}`);
+      counter++;
+    }
+  });
+
+  //esconde el boton original de play
+  let playBtn = document.querySelector(".playBtn");
+  playBtn.style.display = "none";
+
+  //pide los botones que estan escondidos
+  let cartonBtns = document.querySelectorAll(".cartonBtn");
+
+  //cambia el display de los botones para que sean visibles
+  cartonBtns.forEach((e) => {
+    e.style.display = "flex";
+  });
+
+  //cierra la tarjeta de nombres
+  closeCard();
+}
+
+// funcion para mostrar la tarjeta de nombres
+function showNamesCard() {
+  const card = document.getElementById("namesCard");
+  card.style.display = "flex";
+}
+
+// funcion para cerrar la tarjeta de nombres
+function closeCard() {
+  const card = document.getElementById("namesCard");
+  card.style.display = "none";
+
+  document.getElementById("nameInput1").value = "";
+  let nameInputs = document.querySelectorAll(".nameInput");
+
+  //Limpia los campos de texto
+  console.log(nameInputs);
+  nameInputs.forEach((e) => {
+    e.value = "";
+  });
+}
