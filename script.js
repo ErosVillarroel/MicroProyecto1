@@ -49,6 +49,18 @@ const winningArrayLargeSpecial = [
   [4, 8, 12, 16, 20],
 ];
 
+//crear un "diccionario" y llenarlo con numeros del 1 al 50 inicializados en 0
+function generateBingoNumbersRegistry() {
+  const bingoNumbers = {}; // Crear un objeto vacío
+
+  for (let i = 1; i < 51; i++) {
+    bingoNumbers[i] = 0; // Inicializar cada número con 0
+  }
+
+  // Convertir el objeto a una cadena de texto y guardarlo en localStorage (no entendi como monda funciona esto pq el localstorage es raro, pero internet dice q asi)
+  localStorage.setItem("bingoNumbers", JSON.stringify(bingoNumbers));
+}
+
 //Guarda el tamano seleccionado por el usuario para el carton
 function setSize(size) {
   localStorage.setItem("size", size);
@@ -148,7 +160,7 @@ function startPlaying() {
   }
 
   //Guarda el nombre obligatorio
-  localStorage.setItem("importantName", importantName);
+  localStorage.setItem("player_1", importantName);
   console.log(`Nombre player_1: ${importantName}`);
 
   //pide todos los inputs
@@ -187,6 +199,8 @@ function startPlaying() {
 
   //cierra la tarjeta de nombres
   closeCard();
+
+  document.getElementById("playText").innerHTML = "Elija el tamano del carton";
 }
 
 // funcion para mostrar la tarjeta de nombres
@@ -208,4 +222,71 @@ function closeCard() {
   nameInputs.forEach((e) => {
     e.value = "";
   });
+}
+
+//funcion para pedir los nombres guardados en la memoria local
+function fetchButtonNames() {
+  //pide el array de los botones
+  const btns = document.querySelectorAll(".playerBtn");
+  // console.log(btns);
+
+  //se usa este contador para iterar en el array de bottones, cambiando el innerHTML al nombre guardado en esa posicion, si no hay un nombre guardado de cambia con el default player_#
+  let counter = 1;
+  btns.forEach((btn) => {
+    let pNumber = "player_" + counter.toString();
+    let pName = localStorage.getItem(pNumber);
+    btn.innerHTML = pName;
+    counter++;
+    console.log(pName);
+  });
+
+  //Mostrar el nombre del carton del player 1
+  document.getElementById("cartonName").innerHTML =
+    "Carton de: " + localStorage.getItem("player_1");
+}
+
+//genera el numero aleatoreo para los cartones
+function generateRandomNumber() {
+  let movesCounter = parseInt(localStorage.getItem("movesCounter"), 10);
+
+  if (movesCounter < 26) {
+    // Recuperar el objeto del localStorage y convertirlo nuevamente a un objeto
+    const bingoNumbersFromStorage = JSON.parse(
+      localStorage.getItem("bingoNumbers")
+    );
+
+    // Numero aleatorio entre 1 y 50
+    let randomNum = Math.floor(Math.random() * 50) + 1;
+
+    if (bingoNumbersFromStorage[randomNum.toString()] === 0) {
+      // Cambia el display del número para que sea visible
+      let display = document.getElementById("bingoNumber");
+      display.innerHTML = randomNum;
+      display.style.display = "flex";
+      //cambiar el numero de movimientos para que sea visible
+      document.getElementById("numbersLeft").innerHTML =
+        "Numero de movimientos: " + movesCounter;
+      document.getElementById("numbersLeft").style.display = "block";
+      bingoNumbersFromStorage[randomNum.toString()] = 1;
+
+      movesCounter++;
+      // Guarda los cambios en el almacenamiento local
+      localStorage.setItem(
+        "bingoNumbers",
+        JSON.stringify(bingoNumbersFromStorage)
+      );
+
+      localStorage.setItem("movesCounter", movesCounter);
+    } else {
+      generateBingoNumbersRegistry();
+    }
+
+    // Cambia el texto del botón
+    document.getElementById("generateBtn").innerHTML = "Siguiente Número";
+  }
+}
+
+//Empeiza el contador de numeros generados
+function startCounter() {
+  localStorage.setItem("movesCounter", 0);
 }

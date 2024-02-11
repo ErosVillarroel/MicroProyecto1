@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BINGO!</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body onload="createTable()">
-    <div class="container">
-        <h1>Bingo!</h1>
-        <h2>Clicka los numeros para marcarlos.</h2>
-        <h1>Number</h1>
-        <div id="table-container">
-            <table id="carton"></table>
-        </div>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bingo!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="fetchButtonNames(); createTable(); generateBingoNumbersRegistry(); startCounter()">
+  <div class="container">
+    <div class="players-bar">
+      <p id="cartonName">Carton de:</p>
+      <button class="playerBtn" id="pBtn1" onclick="changePlayer(1)">Player 1</button>
+      <button class="playerBtn" id="pBtn2" onclick="changePlayer(2)">Player 2</button>
+      <button class="playerBtn" id="pBtn3" onclick="changePlayer(1)">Player 3</button>
+      <button class="playerBtn" id="pBtn4" onclick="changePlayer(2)">Player 4</button>
     </div>
-  </body>
-  <script src="script.js">
-  </script>
+    <h1>Bingo!</h1>
+    <h2>Clicka los números para marcarlos.</h2>
+    <h1 id="bingoNumber">Number</h1>
+    <p id="numbersLeft">Numeros restantes: 0</p>
+    <div id="table-container">
+      <table id="carton"></table>
+    </div>
+    <div class="bingoFooter">
+      <button onclick="generateRandomNumber()" id="generateBtn">Generar Número</button>
+    </div>
+
+  </div>
+  <script src="script.js"></script>
+</body>
+
 </html>
