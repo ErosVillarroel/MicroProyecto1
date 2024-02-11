@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bingeros</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>BINGO!</h1>
+      <div class="table-holder">
+        <table id="points">
+          <tr>
+            <th id="pnumber">N°</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+          </tr>
+        </table>
+      </div>
+
+      <h2>Jugar:</h2>
+      <div class="buttons">
+        <a href="bingo.html">
+          <button onclick="setSize(3)">3x3</button>
+          <button onclick="setSize(4)">4x4</button>
+          <button onclick="setSize(5)">5x5</button>
+        </a>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
