@@ -70,18 +70,20 @@ function createTable() {
   }
 
   //Anadimos listeners a todas las celdas generadas
-  assignEventListeners()
+  assignEventListeners();
 }
 
-//Funcion para anadir listeners
-function assignEventListeners(){
-    const cells = document.querySelectorAll(".main-table-cell")
+//Events listeners de las celdas
+function assignEventListeners() {
+  const cells = document.querySelectorAll(".main-table-cell");
 
-    cells.forEach(e => {
-        e.addEventListener("click", () => {
-            e.classList.add("stricken")
-        })
-        
+  cells.forEach((e) => {
+    e.addEventListener("click", () => {
+      e.classList.add("stricken");
+      
     });
-
+  });
 }
+
+//Verificacion de puntos usando un array?
+
