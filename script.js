@@ -231,9 +231,9 @@ function assignEventListeners() {
       e.classList.add("stricken");
 
       if (checkFull()) {
-        localStorage.setItem("player_1Points", 25);
+        localStorage.setItem("player_1Points", 5);
         document.getElementById("pointsCount").innerHTML =
-          "Carton Full! Puntos: " + 25;
+          "Carton Full! Puntos: " + 5;
         alert("Carton full");
         return;
       }
