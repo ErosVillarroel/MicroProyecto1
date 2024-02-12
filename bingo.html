@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="fetchButtonNames(); createTable(); generateBingoNumbersRegistry(); startCounter()">
+<body onload="fetchButtonNames(); createTables(); generateBingoNumbersRegistry(); startCounter()">
   <div class="container">
     <div class="players-bar">
       <p id="cartonName">Carton de:</p>
@@ -21,11 +21,28 @@
     <h2>Clicka los números para marcarlos.</h2>
     <h1 id="bingoNumber">Number</h1>
     <p id="numbersLeft">Numeros restantes: 0</p>
+
+    <!-- contenedores de los cartones -->
     <div id="table-container">
-      <table id="carton"></table>
+      <table id="carton1"></table>
     </div>
+    <div id="table-container2">
+      <table id="carton2"></table>
+    </div>
+    <div id="table-container3">
+      <table id="carton3"></table>
+    </div>
+    <div id="table-container4">
+      <table id="carton4"></table>
+    </div>
+
+    <!-- contenedor del footer -->
     <div class="bingoFooter">
+      <p id="pointsCount">Puntos: 0</p>
       <button onclick="generateRandomNumber()" id="generateBtn">Generar Número</button>
+      <a href="index.html" class="btnLink">
+        <button onclick="saveGameData()" id="backBtn">Volver al menu</button>
+      </a>
     </div>
 
   </div>

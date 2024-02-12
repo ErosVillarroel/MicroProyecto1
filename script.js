@@ -87,7 +87,7 @@ function shuffle(array) {
 //crea la tabla con el tamano elegido.
 function createTable() {
   //Pedir la tabla
-  const table = document.querySelector("#carton");
+  const table = document.querySelector("#carton1");
 
   //Pedir el tamano del carton del localstorage
   let size = parseInt(localStorage.getItem("size"));
@@ -97,14 +97,14 @@ function createTable() {
     table.deleteRow(table.rows.length - 1);
   }
 
-  //crear array desde 1 hasta tamano*tamano para poder hacer una tabla
-  const numbers = Array.from({ length: size * size }, (_, i) => i + 1);
+  //crear array desde 1 hasta 50 para poder hacer los numeros de la tabla
+  const numbers = Array.from({ length: 50 }, (_, i) => i + 1);
 
   //barajeamos el arreglo
   shuffle(numbers);
 
   //jiji
-  console.log(numbers);
+  // console.log(numbers);
 
   let iterator = 0;
 
@@ -136,13 +136,181 @@ function createTable() {
   assignEventListeners();
 }
 
+//Crear 4 tablas (YUCA)
+function createTables() {
+  // Get references to the table containers
+  const table1 = document.querySelector("#carton1");
+  const table2 = document.querySelector("#carton2");
+  const table3 = document.querySelector("#carton3");
+  const table4 = document.querySelector("#carton4");
+
+  // Get the size of the carton from local storage
+  let size = parseInt(localStorage.getItem("size"));
+
+  // Clear existing tables
+  while (table1.rows.length > 0) {
+    table1.deleteRow(table1.rows.length - 1);
+  }
+  while (table2.rows.length > 0) {
+    table2.deleteRow(table2.rows.length - 1);
+  }
+  while (table3.rows.length > 0) {
+    table3.deleteRow(table3.rows.length - 1);
+  }
+  while (table4.rows.length > 0) {
+    table4.deleteRow(table4.rows.length - 1);
+  }
+
+  // Create an array of numbers from 1 to 50
+  const numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+
+  // Shuffle the array
+  shuffle(numbers);
+
+  let iterator = 0;
+
+  // Create the tables and add cells with formatting
+  for (let i = 0; i < size; i++) {
+    // Table 1
+    let tr1 = document.createElement("tr");
+    table1.appendChild(tr1);
+
+    // Table 2
+    let tr2 = document.createElement("tr");
+    table2.appendChild(tr2);
+
+    // Table 3
+    let tr3 = document.createElement("tr");
+    table3.appendChild(tr3);
+
+    // Table 4
+    let tr4 = document.createElement("tr");
+    table4.appendChild(tr4);
+
+    for (let j = 0; j < size; j++) {
+      let td = document.createElement("td");
+      let id = numbers[iterator].toString();
+      td.id = id;
+      td.style.height = "20%";
+      td.style.width = "20%";
+      td.classList.add("main-table-cell");
+
+      let div = document.createElement("div");
+      div.classList.add("cell-format");
+      div.textContent = numbers[iterator].toString();
+
+      // Add cells to respective tables
+      td.appendChild(div);
+      tr1.appendChild(td);
+      tr2.appendChild(td.cloneNode(true));
+      tr3.appendChild(td.cloneNode(true));
+      tr4.appendChild(td.cloneNode(true));
+
+      iterator++;
+    }
+
+    // Hacer las tablas invisibles
+    table2.style.display = "none";
+    table3.style.display = "none";
+    table4.style.display = "none";
+  }
+
+  // Add event listeners to all generated cells
+  assignEventListeners();
+}
+
 //Events listeners de las celdas
 function assignEventListeners() {
   const cells = document.querySelectorAll(".main-table-cell");
 
+  //Pedir el tamano del carton del localstorage
+  let size = parseInt(localStorage.getItem("size"));
+
   cells.forEach((e) => {
     e.addEventListener("click", () => {
       e.classList.add("stricken");
+
+      if (checkFull()) {
+        localStorage.setItem("player_1Points", 25);
+        document.getElementById("pointsCount").innerHTML =
+          "Carton Full! Puntos: " + 25;
+        alert("Carton full");
+        return;
+      }
+
+      if (size === 5) {
+        //revisar si hay puntos
+        if (findPointLarge()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+
+          player_1Points++;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        } else if (findPointLargeSpecial()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+
+          player_1Points += 3;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        }
+      } else if (size === 4) {
+        if (findPointMedium()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+          player_1Points++;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        } else if (findPointMediumSpecial()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+
+          player_1Points += 3;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        }
+      } else if (size === 3) {
+        if (findPointSmall()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+
+          player_1Points++;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        } else if (findPointSmallSpecial()) {
+          let player_1Points = parseInt(
+            localStorage.getItem("player_1Points"),
+            10
+          );
+
+          player_1Points += 3;
+          document.getElementById("pointsCount").innerHTML =
+            "Puntos: " + player_1Points;
+
+          localStorage.setItem("player_1Points", player_1Points);
+        }
+      }
     });
   });
 }
@@ -200,6 +368,7 @@ function startPlaying() {
   //cierra la tarjeta de nombres
   closeCard();
 
+  //da a elegir el tamano de los cartones
   document.getElementById("playText").innerHTML = "Elija el tamano del carton";
 }
 
@@ -237,7 +406,7 @@ function fetchButtonNames() {
     let pName = localStorage.getItem(pNumber);
     btn.innerHTML = pName;
     counter++;
-    console.log(pName);
+    // console.log(pName);
   });
 
   //Mostrar el nombre del carton del player 1
@@ -277,16 +446,220 @@ function generateRandomNumber() {
       );
 
       localStorage.setItem("movesCounter", movesCounter);
+
+      // console.log(bingoNumbersFromStorage);
+      // console.log(randomNum);
     } else {
       generateBingoNumbersRegistry();
     }
 
     // Cambia el texto del botón
     document.getElementById("generateBtn").innerHTML = "Siguiente Número";
+  } else {
+    document.getElementById("carton1").style.pointerEvents = "none";
+    document.getElementById("carton2").style.pointerEvents = "none";
+    document.getElementById("carton3").style.pointerEvents = "none";
+    document.getElementById("carton4").style.pointerEvents = "none";
+
+    document.getElementById("generateBtn").style.display = "none";
+    document.getElementById("backBtn").style.display = "block";
+
+    alert("Numero maximo de numeros alcanzado.");
   }
 }
 
 //Empeiza el contador de numeros generados
 function startCounter() {
   localStorage.setItem("movesCounter", 0);
+
+  //empieza los contadores de puntos de los usuarios
+  localStorage.setItem("player_1Points", 0);
+  localStorage.setItem("player_2Points", 0);
+  localStorage.setItem("player_3Points", 0);
+  localStorage.setItem("player_4Points", 0);
+
+  localStorage.setItem("currentPlayer", localStorage.getItem("player_1"));
+}
+
+//vaina rara que encontre en internet para encontrar los matches entre los cartones y los array ganadores
+function findPointLarge() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en winningArrayLarge
+  return winningArrayLarge.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 5) {
+      let indexWin = winningArrayLarge.indexOf(combination);
+      winningArrayLarge.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//verificar punto en diagonal
+function findPointLargeSpecial() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en cawinningArrayLargeSpecial
+  return winningArrayLargeSpecial.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 5) {
+      let indexWin = winningArrayLargeSpecial.indexOf(combination);
+      winningArrayLargeSpecial.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//verificador punto tamano medio
+function findPointMedium() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en winningArrayMedium
+  return winningArrayMedium.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 4) {
+      let indexWin = winningArrayMedium.indexOf(combination);
+      winningArrayMedium.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//verificar punto tamano medio diagonal
+function findPointMediumSpecial() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en winningArrayMediumSpecial
+  return winningArrayMediumSpecial.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 4) {
+      let indexWin = winningArrayMediumSpecial.indexOf(combination);
+      winningArrayMediumSpecial.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//verificar punto tamano pequeno
+function findPointSmall() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en winningArraySmall
+  return winningArraySmall.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 3) {
+      let indexWin = winningArraySmall.indexOf(combination);
+      winningArraySmall.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//Verificar punto tamano pequenoi diagonal
+function findPointSmallSpecial() {
+  // Selecciona todas las celdas del documento con la clase "main-table-cell"
+  const cells = document.querySelectorAll(".main-table-cell");
+
+  // Itera sobre cada combinación en winningArraySmall
+  return winningArraySmallSpecial.some((combination) => {
+    let iterator = 0;
+    // Para cada índice en la combinación
+    combination.forEach((index) => {
+      // Si la celda en el índice actual tiene la clase "stricken", incrementa el contador
+      if (cells[index].classList.contains("stricken")) {
+        iterator++;
+      }
+    });
+
+    if (iterator === 3) {
+      let indexWin = winningArraySmallSpecial.indexOf(combination);
+      winningArraySmallSpecial.splice(indexWin, 1);
+    }
+
+    // Verifica si todos los índices en la combinación tienen la clase "stricken"
+    return combination.every((index) => {
+      return cells[index].classList.contains("stricken");
+    });
+  });
+}
+
+//verifica si un carton esta lleno
+function checkFull() {
+  const cells = document.querySelectorAll(".main-table-cell");
+  const size = localStorage.getItem("size");
+
+  let counter = 0;
+  cells.forEach((cell) => {
+    if (cell.classList.contains("stricken")) {
+      counter++;
+    }
+  });
+
+  return counter === size * size;
 }
